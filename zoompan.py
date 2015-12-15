@@ -11,7 +11,7 @@ varying vec3 v_color;
 uniform mat3 u_view;
 
 void main() {
-    gl_Position = vec4(vec3(a_position, 1.)*u_view, 1.);
+    gl_Position = vec4((vec3(a_position, 1.)*u_view).xy, 0., 1.);
     v_color = a_color;
 }
 """
