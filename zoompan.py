@@ -109,8 +109,8 @@ class Canvas(app.Canvas):
     def on_mouse_move(self, event):
         if event.is_dragging and event.press_event.button == 1:
             delta = event.pos - event.last_event.pos
-            self.x += 2*float(delta[0])/self.width
-            self.y += -2*float(delta[1])/self.height
+            self.x += 2*float(delta[0])/self.width/self.scale
+            self.y += -2*float(delta[1])/self.height/self.scale
         self.update_view()
         self.update()
 
