@@ -78,11 +78,11 @@ class Canvas(app.Canvas):
             positions += [i[0],i[1],i[2],i[2],i[3],i[0]]
 
         self.colors = np.random.uniform(0.3, 0.8,
-                                        size=(len(positions), 3)).astype(np.float32)
+                                        size=(len(positions)//6, 3)).astype(np.float32)
 
         self.program = gloo.Program(VS, FS)
         self.program['a_position'] = positions
-        self.program['a_color'] = self.colors
+        self.program['a_color'] = np.repeat(self.colors, 6, axis=0)
 
         self.activate_zoom()
         self.update_view()
@@ -102,7 +102,9 @@ class Canvas(app.Canvas):
         self.program['u_screen'] = (self.width, self.height)
 
     def update_view(self):
-        self.program['u_view'] = [[self.scale,0,self.x],[0,self.scale,self.y],[0,0,1]]
+        self.program['u_view'] = [[self.scale,0,self.x*self.scale],
+                                  [0,self.scale,self.y*self.scale],
+                                  [0,0,1]]
 
     def on_mouse_move(self, event):
         if event.is_dragging and event.press_event.button == 1:
